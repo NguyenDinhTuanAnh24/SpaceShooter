@@ -6,6 +6,7 @@ namespace Tutorial
     {
         public GameObject bulletPrefabs;
         public float shootingInterval;
+        public Vector3 bulletOffset;
         private float lastBulletTime;
 
         void Update()
@@ -22,7 +23,7 @@ namespace Tutorial
 
         private void ShootBullet()
         {
-            Instantiate(bulletPrefabs, transform.position, transform.rotation);
+            var bullet = Instantiate(bulletPrefabs, transform.position + bulletOffset, transform.rotation);
         }
     }
 }
