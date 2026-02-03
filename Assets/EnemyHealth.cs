@@ -1,23 +1,12 @@
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+// Thay đổi: Kế thừa từ 'Health' thay vì 'MonoBehaviour'
+public class EnemyHealth : Health 
 {
-    // Biến chứa hiệu ứng nổ (sẽ dùng ở phần 6)
-    public GameObject explosionPrefab;
-
-    // Hàm này tự động chạy khi có vật thể (Trigger) chạm vào
-    private void OnTriggerEnter2D(Collider2D collision)
+    // Ghi đè hàm Die của cha để thêm hành động riêng (nếu cần)
+    protected override void Die()
     {
-        Die(); // Gọi hàm chết
-    }
-
-    private void Die()
-    {
-        if (explosionPrefab != null)
-        {
-            var explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
-            Destroy(explosion, 1f); // Hủy vụ nổ sau 1 giây
-        }
-        Destroy(gameObject); // Xóa kẻ địch khỏi game ngay lập tức
+        base.Die(); // Gọi lại logic nổ và xóa object của lớp cha (Health)
+        Debug.Log("Enemy died"); // In thông báo ra màn hình console [cite: 206]
     }
 }
