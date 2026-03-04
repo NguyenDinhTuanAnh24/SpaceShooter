@@ -1,10 +1,14 @@
 using UnityEngine;
+using System.Collections; // Cần thiết nếu chưa có
 
 public class Health : MonoBehaviour
 {
-    public GameObject explosionPrefab; // Biến này được chuyển từ EnemyHealth sang đây
-    public int defaultHealthPoint;     // Điểm máu mặc định (VD: 3) [cite: 228]
+    public GameObject explosionPrefab;
+    public int defaultHealthPoint; // Điểm máu mặc định (VD: 3)
     private int healthPoint;
+
+    // THÊM: Sự kiện được gọi khi đối tượng chết
+    public System.Action onDead; //
 
     private void Start()
     {
@@ -15,12 +19,12 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damage)
     {
         if (healthPoint <= 0) return;
-        
+
         healthPoint -= damage;
-        
+
         if (healthPoint <= 0)
         {
-            Die(); // Hết máu thì gọi hàm chết [cite: 235]
+            Die();
         }
     }
 
@@ -33,7 +37,10 @@ public class Health : MonoBehaviour
             var explosion = Instantiate(explosionPrefab, transform.position, transform.rotation);
             Destroy(explosion, 1f);
         }
-        
-        Destroy(gameObject); // Xóa đối tượng [cite: 220]
+
+        Destroy(gameObject); 
+
+        // GỌI: Kích hoạt sự kiện onDead
+        onDead?.Invoke(); //
     }
 }
